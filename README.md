@@ -4,7 +4,7 @@ An interactive business map (traffic → retention) built to practice modern CSS
 
 Based on my Pareto Talent Bootcamp final project (Head to Hand): the same business structure, rebuilt as a scrolling page where each stage of the funnel is a lab for a different set of CSS features.
 
-**Live:** _(coming soon)_
+**Live:** https://angebesson.github.io/business-map-css/
 
 ## Why this exists
 I wanted to learn the new CSS properly, not by reading specs but by building something with a real structure behind it. The business map gave me that structure.
