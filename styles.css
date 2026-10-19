@@ -96,20 +96,50 @@
       border: 3px solid var(--ink);
     }
 
+    /* Three motions on the bubble, each with a different duration (3s, 5s, 7s).
+       They rarely line up, so the movement never reads as a loop.
+       Each uses its own property (translate / rotate / scale), so they stack. */
+    animation:
+      bob 3s ease-in-out infinite alternate,
+      sway 5s ease-in-out infinite alternate,
+      breathe 7s ease-in-out infinite alternate;
+
+    /* One 12s cycle, but each thought stays a different length of time. */
     .thought {
       grid-area: 1 / 1;
       opacity: 0;
-      animation: cycle 8s infinite;
+      animation: 12s infinite;
     }
-    .t2 { animation-delay: 2s; }
-    .t3 { animation-delay: 4s; }
-    .t4 { animation-delay: 6s; }
+    .t1 { animation-name: think-1; }
+    .t2 { animation-name: think-2; }
+    .t3 { animation-name: think-3; }
+    .t4 { animation-name: think-4; }
   }
 
-  @keyframes cycle {
-    0%   { opacity: 0; translate: 0 .5rem; }
-    5%, 22% { opacity: 1; translate: 0 0; }
-    27%, 100% { opacity: 0; translate: 0 -.5rem; }
+  @keyframes bob     { to { translate: 0 -.6rem; } }
+  @keyframes sway    { from { rotate: -2.5deg; } to { rotate: 2.5deg; } }
+  @keyframes breathe { to { scale: 1.05; } }
+
+  /* long, short, longest, medium */
+  @keyframes think-1 {
+    0%        { opacity: 0; translate: 0 .5rem; }
+    3%, 22%   { opacity: 1; translate: 0 0; }
+    25%, 100% { opacity: 0; translate: 0 -.5rem; }
+  }
+  @keyframes think-2 {
+    0%, 28%   { opacity: 0; translate: 0 .5rem; }
+    31%, 40%  { opacity: 1; translate: 0 0; }
+    43%, 100% { opacity: 0; translate: 0 -.5rem; }
+  }
+  @keyframes think-3 {
+    0%, 46%   { opacity: 0; translate: 0 .5rem; }
+    49%, 72%  { opacity: 1; translate: 0 0; }
+    75%, 100% { opacity: 0; translate: 0 -.5rem; }
+  }
+  @keyframes think-4 {
+    0%, 78%   { opacity: 0; translate: 0 .5rem; }
+    81%, 93%  { opacity: 1; translate: 0 0; }
+    96%, 100% { opacity: 0; translate: 0 -.5rem; }
   }
 }
 
@@ -240,7 +270,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .thought, .stage, .stage h2, .hero h1, .progress, :root { animation: none !important; }
+  .bubble, .thought, .stage, .stage h2, .hero h1, .progress, :root { animation: none !important; }
   .stage h2, .hero h1 { font-variation-settings: "wght" 700; }
   .progress { scale: 1 1; }
   .thought.t1 { opacity: 1; }
