@@ -15,6 +15,7 @@ I wanted to learn the new CSS properly, not by reading specs but by building som
 | Foundation | `@layer`, nesting, `@property`, `oklch()`, `color-mix()` |
 | Hero | CSS-only looping "thought bubble" animation |
 | Whole page | Scroll-driven animations (`animation-timeline: scroll()` / `view()`) |
+| Traffic tile | Gradient-drawn pattern (`radial-gradient` hard stops), per-cell custom properties, `atan2()` + `round()` for rotation, `subgrid` overlay |
 | Typography | Variable font (`wght` 200–800) animated on scroll with named view timelines (`view-timeline`, `animation-range`), no JS |
 | Planned | `:has()`, `field-sizing`, container queries, View Transitions, anchor positioning, `@starting-style`, popover, `light-dark()` |
 
