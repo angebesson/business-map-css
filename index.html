@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Business Map — a modern CSS playground</title>
+  <meta name="description" content="An interactive business map (traffic to retention) built to practice modern CSS.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Variable font: the wght range (200..800) is what lets weight animate smoothly. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+
+  <header class="hero">
+    <p class="eyebrow">Head to Hand · business map</p>
+    <h1>Free the process <em>in your head.</em></h1>
+    <p class="lede">From the first click to a client who stays: six stages, one map, built to push modern CSS.</p>
+
+    <div class="head" aria-hidden="true">
+      <div class="bubble">
+        <span class="thought t1">Invoice</span>
+        <span class="thought t2">Calendar</span>
+        <span class="thought t3">Chat</span>
+        <span class="thought t4">Note</span>
+      </div>
+      <div class="face"></div>
+    </div>
+  </header>
+
+  <main class="map">
+    <article class="stage" data-n="1">
+      <h2>Traffic</h2>
+      <p>Where attention comes from: an ad, a post, a search.</p>
+      <small>CSS: <code>@property</code>, <code>animation-timeline: view()</code></small>
+    </article>
+    <article class="stage" data-n="2">
+      <h2>Capture</h2>
+      <p>A landing page and a form that ask one clear thing.</p>
+      <small>CSS: <code>:has()</code>, <code>field-sizing</code></small>
+    </article>
+    <article class="stage" data-n="3">
+      <h2>Qualify &amp; nurture</h2>
+      <p>Three gates decide who goes to a call.</p>
+      <small>CSS: container queries, <code>sibling-index()</code></small>
+    </article>
+    <article class="stage" data-n="4">
+      <h2>Sales &amp; handoff</h2>
+      <p>The booking, the call, the yes.</p>
+      <small>CSS: View Transitions, anchor positioning</small>
+    </article>
+    <article class="stage" data-n="5">
+      <h2>Onboarding</h2>
+      <p>The first week sets the tone for everything.</p>
+      <small>CSS: <code>@starting-style</code>, popover</small>
+    </article>
+    <article class="stage" data-n="6">
+      <h2>Retain</h2>
+      <p>Why a client stays, and tells someone else.</p>
+      <small>CSS: <code>color-mix()</code>, <code>light-dark()</code></small>
+    </article>
+  </main>
+
+  <footer>
+    <div class="swatches" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <button id="shuffle" type="button">Shuffle palette (space)</button>
+    <p>Built by Angelina Besson · a work in progress.</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

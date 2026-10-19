@@ -1,0 +1,247 @@
+@layer reset, tokens, base, hero, map;
+
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+  body, h1, h2, p { margin: 0; }
+  button { font: inherit; }
+}
+
+@layer tokens {
+  /* Registered custom property: lets the browser animate the blend itself. */
+  @property --mix {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 100;
+  }
+
+  :root {
+    color-scheme: light;
+
+    /* Default palette (coolors.co). script.js swaps these on every visit. */
+    --c1: #ff7477;
+    --c2: #e69597;
+    --c3: #ceb5b7;
+    --c4: #b5d6d6;
+    --c5: #9cf6f6;
+
+    /* Everything below is derived, so any random palette just works. */
+    --bg: color-mix(in oklch, var(--c4) 28%, white);
+    --ink: color-mix(in oklch, var(--c1) 14%, black);
+    --paper: color-mix(in oklch, var(--c3) 35%, white);
+    /* c1 at the top of the page, sliding to c5 as you scroll. */
+    --accent: color-mix(in oklch, var(--c1) calc(var(--mix) * 1%), var(--c5));
+    --space: clamp(1rem, 4vw, 3rem);
+    font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+  }
+}
+
+@layer base {
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  h1, h2 { text-wrap: balance; line-height: 1.05; }
+  p { text-wrap: pretty; }
+  code { background: color-mix(in oklch, var(--accent) 40%, white); padding: 0 .3em; border-radius: .3em; }
+}
+
+@layer hero {
+  .hero {
+    min-height: 100svh;
+    display: grid;
+    align-content: center;
+    gap: 1.25rem;
+    padding: var(--space);
+
+    .eyebrow { letter-spacing: .12em; text-transform: uppercase; font-size: .8rem; font-weight: 700; }
+    h1 { font-size: clamp(2.75rem, 11vw, 8rem); max-inline-size: 12ch; }
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(transparent 62%, var(--accent) 62%);
+    }
+    .lede { max-inline-size: 38ch; opacity: .8; }
+  }
+
+  .head {
+    position: relative;
+    inline-size: min(70vw, 20rem);
+    aspect-ratio: 1;
+    margin-block-start: 1rem;
+
+    .face {
+      position: absolute;
+      inset: 40% 20% 0;
+      border-radius: 50% 50% 0 0;
+      background: var(--ink);
+    }
+  }
+
+  .bubble {
+    position: absolute;
+    inset: 0 10% 55%;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    font-weight: 700;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 100% 38% -18%;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 3px solid var(--ink);
+    }
+
+    .thought {
+      grid-area: 1 / 1;
+      opacity: 0;
+      animation: cycle 8s infinite;
+    }
+    .t2 { animation-delay: 2s; }
+    .t3 { animation-delay: 4s; }
+    .t4 { animation-delay: 6s; }
+  }
+
+  @keyframes cycle {
+    0%   { opacity: 0; translate: 0 .5rem; }
+    5%, 22% { opacity: 1; translate: 0 0; }
+    27%, 100% { opacity: 0; translate: 0 -.5rem; }
+  }
+}
+
+@layer map {
+  /* Scroll progress bar: pure CSS, no JS. */
+  .progress {
+    position: fixed;
+    inset: 0 0 auto;
+    block-size: 6px;
+    background: var(--accent);
+    transform-origin: left;
+    scale: 0 1;
+    z-index: 10;
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .progress {
+      animation: grow linear both;
+      animation-timeline: scroll(root);
+    }
+    .stage {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+    :root {
+      animation: shift linear both;
+      animation-timeline: scroll(root);
+    }
+
+    /* Each stage names its own view timeline; its title reads that one.
+       Weight peaks while the card crosses the middle of the screen. */
+    .stage {
+      view-timeline: --stage block;
+
+      h2 {
+        animation: weight-lens linear both;
+        animation-timeline: --stage;
+        animation-range: cover 0% cover 100%;
+      }
+    }
+
+    /* Hero title slims down as the hero scrolls away. */
+    .hero {
+      view-timeline: --hero block;
+
+      h1 {
+        animation: slim linear both;
+        animation-timeline: --hero;
+        animation-range: exit 0% exit 100%;
+      }
+    }
+  }
+
+  @keyframes weight-lens {
+    0%, 100% { font-variation-settings: "wght" 200; letter-spacing: .04em; }
+    50%      { font-variation-settings: "wght" 800; letter-spacing: -.03em; }
+  }
+  @keyframes slim {
+    from { font-variation-settings: "wght" 800; letter-spacing: -.03em; }
+    to   { font-variation-settings: "wght" 250; letter-spacing: .01em; }
+  }
+
+  @keyframes grow { to { scale: 1 1; } }
+  @keyframes reveal { from { opacity: 0; translate: 0 3rem; } }
+  @keyframes shift { to { --mix: 0; } }
+
+  .map {
+    display: grid;
+    gap: var(--space);
+    padding: var(--space);
+    max-inline-size: 70rem;
+    margin-inline: auto;
+  }
+
+  .stage {
+    padding: 2rem;
+    border-radius: 1.25rem;
+    background: color-mix(in oklch, var(--accent) 38%, white);
+    border: 2px solid var(--ink);
+
+    &::before {
+      content: "0" attr(data-n);
+      display: block;
+      font-weight: 800;
+      font-size: 3rem;
+    }
+    /* Taller cards + big titles: the weight change needs time and size to be seen. */
+    min-block-size: 70svh;
+    align-content: center;
+    h2 { font-size: clamp(2.5rem, 9vw, 6rem); }
+    small { display: block; margin-block-start: 1rem; opacity: .75; }
+  }
+
+  footer {
+    display: grid;
+    justify-items: center;
+    gap: 1rem;
+    padding: var(--space);
+
+    .swatches { display: flex; gap: .5rem; }
+    .swatches i {
+      inline-size: 2.5rem;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 2px solid var(--ink);
+    }
+    .swatches i:nth-child(1) { background: var(--c1); }
+    .swatches i:nth-child(2) { background: var(--c2); }
+    .swatches i:nth-child(3) { background: var(--c3); }
+    .swatches i:nth-child(4) { background: var(--c4); }
+    .swatches i:nth-child(5) { background: var(--c5); }
+
+    button {
+      padding: .6rem 1.2rem;
+      border-radius: 999px;
+      border: 2px solid var(--ink);
+      background: var(--accent);
+      color: var(--ink);
+      font-weight: 700;
+      cursor: pointer;
+
+      &:hover { translate: 0 -2px; }
+      &:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+    }
+    p { opacity: .65; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thought, .stage, .stage h2, .hero h1, .progress, :root { animation: none !important; }
+  .stage h2, .hero h1 { font-variation-settings: "wght" 700; }
+  .progress { scale: 1 1; }
+  .thought.t1 { opacity: 1; }
+}
